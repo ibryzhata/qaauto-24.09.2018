@@ -4,11 +4,23 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.testng.Assert;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import static java.lang.Thread.sleep;
 
 public class LoginTest {
+    WebDriver webDriver;
+
+    @BeforeMethod
+    public void  beforeMethod () {
+         webDriver = new FirefoxDriver();
+    }
+
+    @AfterMethod
+    public void afterMethod () {
+        webDriver.quit();
+    }
 
     /**
      * Preconditions:
@@ -28,27 +40,45 @@ public class LoginTest {
      */
     @Test
     public void successfulLoginTest() {
-        WebDriver webDriver = new FirefoxDriver();
+
         webDriver.get("https://www.linkedin.com");
+        LoginPage loginPage = new LoginPage(webDriver);
+
+        Assert.assertEquals(webDriver.getCurrentUrl(), "https://www.linkedin.com/",
+                "Home page URL is wrong.");
+        loginPage.login("bryzhatan@gmail.com", "Qwerty");
+
+        Assert.assertEquals(webDriver.getCurrentUrl(), "https://www.linkedin.com/feed/",  "Login page URL is wrong");
+
+    }
+
+    @Test
+    public void negativeLoginTest () {
+        webDriver.get("https://www.linkedin.com");
+        LoginPage loginPage = new LoginPage(webDriver);
+
         Assert.assertEquals(webDriver.getCurrentUrl(), "https://www.linkedin.com/",
                 "Home page URL is wrong.");
 
-        WebElement userEmail = webDriver.findElement(By.xpath("//input[@id='login-email']"));
-        userEmail.sendKeys("bryzhatan@gmail.com");
-        userEmail.sendKeys(Keys.TAB);
+        loginPage.login("a@b.c", "");
 
+        Assert.assertEquals(webDriver.getCurrentUrl(), "https://www.linkedin.com/",  "Login page URL is wrong");
 
-        WebElement userPassword = webDriver.findElement(By.xpath("//input[@id='login-password']"));
-        userPassword.sendKeys("Qwerty");
-        userPassword.sendKeys(Keys.TAB);
-
-        WebElement signInButton = webDriver.findElement(By.xpath("//input[@id='login-submit']"));
-        signInButton.click();
-
-        /*webDriver.get("https://www.linkedin.com/feed/");*/
-        Assert.assertEquals(webDriver.getCurrentUrl(), "https://www.linkedin.com/feed/",  "Profile page is wrong");
-
-        webDriver.quit();
 
     }
+
+    @Test
+
+    public void negativeTestInvalidPassword () {
+        webDriver.get("https://www.linkedin.com");
+        LoginPage loginPage = new LoginPage(webDriver);
+
+        Assert.assertEquals(webDriver.getCurrentUrl(), "https://www.linkedin.com/",
+                "Home page URL is wrong.");
+        loginPage.login("bryzhatan@gmail.com", "qwerty");
+
+        Assert.assertEquals(webDriver.getCurrentUrl(), "https://www.linkedin.com/uas/login-submit?loginSubmitSource=GUEST_HOME",  "Login page URL is wrong");
+    }
+
 }
+
