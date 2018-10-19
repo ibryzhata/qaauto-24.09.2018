@@ -8,6 +8,8 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import static java.lang.Thread.sleep;
+
 
 public class LoginTest {
     WebDriver webDriver;
@@ -44,23 +46,20 @@ public class LoginTest {
         webDriver.get("https://www.linkedin.com");
         LoginPage loginPage = new LoginPage(webDriver);
 
-        Assert.assertEquals(webDriver.getCurrentUrl(), "https://www.linkedin.com/",
-                "Home page URL is wrong.");
-        Assert.assertEquals (webDriver.getTitle(), "LinkedIn: Log In or Sign Up",
-                "Login page title is wrong.");
-        Assert.assertTrue(loginPage.signInButton.isDisplayed(),
-                "SignInButton is not displayed  on Login Page");
-        loginPage.login("bryzhatan@gmail.com", "Qwerty");
+        Assert.assertTrue(loginPage.isPageLoaded(), "Login page is not loaded");
 
-        Assert.assertEquals(webDriver.getCurrentUrl(), "https://www.linkedin.com/feed/",
+        loginPage.login("bryzhatan@gmail.com", "Qwerty");
+        HomePage homePage = new HomePage(webDriver);
+        Assert.assertTrue(homePage.isHomePageLoad(), "Home page is not loaded");
+
+      /*  Assert.assertEquals(webDriver.getCurrentUrl(), "https://www.linkedin.com/feed/",
                 "Login page URL is wrong");
         Assert.assertEquals (webDriver.getTitle(), "LinkedIn",
                 "Home page title is wrong.");
         HomePage homePage = new HomePage(webDriver);
-        Assert.assertTrue(homePage.profileNavItem.isDisplayed(),
-                "profileNavItem is not displayed on Login page.");
+       // Assert.assertTrue(homePage.profileNavItem.isDisplayed(),
+               // "profileNavItem is not displayed on Login page.");*/
 
-        //li[@id='profile-nav-item']
     }
 
     @Test
@@ -68,12 +67,11 @@ public class LoginTest {
         webDriver.get("https://www.linkedin.com");
         LoginPage loginPage = new LoginPage(webDriver);
 
-        Assert.assertEquals(webDriver.getCurrentUrl(), "https://www.linkedin.com/",
-                "Home page URL is wrong.");
+        Assert.assertTrue(loginPage.isPageLoaded(), "Login page is not loaded");
 
         loginPage.login("a@b.c", "");
 
-        Assert.assertEquals(webDriver.getCurrentUrl(), "https://www.linkedin.com/",
+       Assert.assertEquals(webDriver.getCurrentUrl(), "https://www.linkedin.com/",
                 "Login page URL is wrong");
 
 
@@ -85,11 +83,17 @@ public class LoginTest {
         webDriver.get("https://www.linkedin.com");
         LoginPage loginPage = new LoginPage(webDriver);
 
-        Assert.assertEquals(webDriver.getCurrentUrl(), "https://www.linkedin.com/",
-                "Home page URL is wrong.");
+        Assert.assertTrue(loginPage.isPageLoaded(), "Login page is not loaded");
         loginPage.login("bryzhatan@gmail.com", "qwerty");
+        try {
+            sleep(10000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        SubmitPage submitPage= new SubmitPage(webDriver);
+        Assert.assertTrue(submitPage.isSubmitPageLoad(), "Submit page URL is wrong");
 
-        Assert.assertEquals(webDriver.getCurrentUrl(), "https://www.linkedin.com/uas/login-submit?loginSubmitSource=GUEST_HOME",  "Login page URL is wrong");
+     //   Assert.assertEquals(webDriver.getCurrentUrl(), "https://www.linkedin.com/uas/login-submit?loginSubmitSource=GUEST_HOME",  "Login page URL is wrong");
     }
 
 }
