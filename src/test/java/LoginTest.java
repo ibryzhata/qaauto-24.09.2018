@@ -86,15 +86,17 @@ public class LoginTest {
         Assert.assertTrue(loginPage.isPageLoaded(), "Login page is not loaded");
         loginPage.login("bryzhatan@gmail.com", "qwerty");
         try {
-            sleep(10000);
+            sleep(5000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
         SubmitPage submitPage= new SubmitPage(webDriver);
-        Assert.assertTrue(submitPage.isSubmitPageLoad(), "Submit page URL is wrong");
+        Assert.assertFalse(submitPage.isSubmitPageLoad(), "Submit page URL is wrong");
 
      //   Assert.assertEquals(webDriver.getCurrentUrl(), "https://www.linkedin.com/uas/login-submit?loginSubmitSource=GUEST_HOME",  "Login page URL is wrong");
     }
+
+
 
 }
 
