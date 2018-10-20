@@ -96,7 +96,41 @@ public class LoginTest {
      //   Assert.assertEquals(webDriver.getCurrentUrl(), "https://www.linkedin.com/uas/login-submit?loginSubmitSource=GUEST_HOME",  "Login page URL is wrong");
     }
 
+    @Test
+
+    public void negativeTestInvalidEmail () {
+        webDriver.get("https://www.linkedin.com");
+        LoginPage loginPage = new LoginPage(webDriver);
+
+        Assert.assertTrue(loginPage.isPageLoaded(), "Login page is not loaded");
+        loginPage.login("bryzhatan@gmail1.com", "Qwerty");
+        try {
+            sleep(5000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+            CheckpointPage checkpointPage = new CheckpointPage(webDriver);
+            Assert.assertTrue(checkpointPage.isCheckpointPageLoad(), "Checkpoint Page is wrong");
+
+        }
+
+    }
 
 
+    @Test
+
+    public void negativeTestMinimumNumberOfCharacters () {
+        webDriver.get("https://www.linkedin.com");
+        LoginPage loginPage = new LoginPage(webDriver);
+
+        Assert.assertTrue(loginPage.isPageLoaded(), "Login page is not loaded");
+        loginPage.login("s", "Qwerty");
+        try {
+            sleep(5000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+            SubmitPage submitPage= new SubmitPage(webDriver);
+            Assert.assertTrue(submitPage.isErrorMessageDisplayed(), "Submit page URL is wrong");
+        }
+
+    }
 }
-
