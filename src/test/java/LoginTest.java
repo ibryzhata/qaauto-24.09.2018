@@ -48,18 +48,14 @@ public class LoginTest {
 
         Assert.assertTrue(loginPage.isPageLoaded(), "Login page is not loaded");
 
-        loginPage.login("bryzhatan@gmail.com", "Qwerty");
-        HomePage homePage = new HomePage(webDriver);
+        HomePage homePage=loginPage.login("bryzhatan@gmail.com", "Qwerty");
+
+        try {
+            sleep(5000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         Assert.assertTrue(homePage.isHomePageLoad(), "Home page is not loaded");
-
-      /*  Assert.assertEquals(webDriver.getCurrentUrl(), "https://www.linkedin.com/feed/",
-                "Login page URL is wrong");
-        Assert.assertEquals (webDriver.getTitle(), "LinkedIn",
-                "Home page title is wrong.");
-        HomePage homePage = new HomePage(webDriver);
-       // Assert.assertTrue(homePage.profileNavItem.isDisplayed(),
-               // "profileNavItem is not displayed on Login page.");*/
-
     }
 
     @Test
@@ -73,8 +69,6 @@ public class LoginTest {
 
        Assert.assertEquals(webDriver.getCurrentUrl(), "https://www.linkedin.com/",
                 "Login page URL is wrong");
-
-
     }
 
     @Test
@@ -92,8 +86,6 @@ public class LoginTest {
         }
         SubmitPage submitPage= new SubmitPage(webDriver);
         Assert.assertFalse(submitPage.isSubmitPageLoad(), "Submit page URL is wrong");
-
-     //   Assert.assertEquals(webDriver.getCurrentUrl(), "https://www.linkedin.com/uas/login-submit?loginSubmitSource=GUEST_HOME",  "Login page URL is wrong");
     }
 
     @Test
@@ -110,15 +102,12 @@ public class LoginTest {
             e.printStackTrace();
             CheckpointPage checkpointPage = new CheckpointPage(webDriver);
             Assert.assertTrue(checkpointPage.isCheckpointPageLoad(), "Checkpoint Page is wrong");
-
         }
-
     }
-
 
     @Test
 
-    public void negativeTestMinimumNumberOfCharacters () {
+    public void TestMinNumberOfCharEmailField () {
         webDriver.get("https://www.linkedin.com");
         LoginPage loginPage = new LoginPage(webDriver);
 

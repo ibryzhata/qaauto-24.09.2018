@@ -12,10 +12,10 @@ public class HomePage {
     }
     public boolean isHomePageLoad () {
         return webDriver.getCurrentUrl().equals("https://www.linkedin.com/feed/")
-                && webDriver.getTitle().equals("LinkedIn")
-                && isProfileNavItemDisplayed();
+                && webDriver.getTitle().contains("LinkedIn")
+             && isProfileNavItemDisplayed();
     }
-    public boolean  isProfileNavItemDisplayed () {
+   public boolean  isProfileNavItemDisplayed () {
         return profileNavItem.isDisplayed();
     }
 
