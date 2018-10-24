@@ -65,7 +65,7 @@ public class LoginTest {
 
         Assert.assertTrue(loginPage.isPageLoaded(), "Login page is not loaded");
 
-        loginPage.login("a@b.c", "");
+        loginPage = loginPage.loginStayAtLogin("a@b.c", "");
 
        Assert.assertEquals(webDriver.getCurrentUrl(), "https://www.linkedin.com/",
                 "Login page URL is wrong");
@@ -78,13 +78,12 @@ public class LoginTest {
         LoginPage loginPage = new LoginPage(webDriver);
 
         Assert.assertTrue(loginPage.isPageLoaded(), "Login page is not loaded");
-        loginPage.login("bryzhatan@gmail.com", "qwerty");
+        SubmitPage submitPage=loginPage.loginSubmit("bryzhatan@gmail.com", "qwerty");
         try {
             sleep(5000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        SubmitPage submitPage= new SubmitPage(webDriver);
         Assert.assertFalse(submitPage.isSubmitPageLoad(), "Submit page URL is wrong");
     }
 
@@ -95,12 +94,12 @@ public class LoginTest {
         LoginPage loginPage = new LoginPage(webDriver);
 
         Assert.assertTrue(loginPage.isPageLoaded(), "Login page is not loaded");
-        loginPage.login("bryzhatan@gmail1.com", "Qwerty");
+        CheckpointPage checkpointPage=loginPage.loginCheckpoint("bryzhatan@gmail1.com", "Qwerty");
         try {
             sleep(5000);
         } catch (InterruptedException e) {
             e.printStackTrace();
-            CheckpointPage checkpointPage = new CheckpointPage(webDriver);
+
             Assert.assertTrue(checkpointPage.isCheckpointPageLoad(), "Checkpoint Page is wrong");
         }
     }
@@ -112,12 +111,11 @@ public class LoginTest {
         LoginPage loginPage = new LoginPage(webDriver);
 
         Assert.assertTrue(loginPage.isPageLoaded(), "Login page is not loaded");
-        loginPage.login("s", "Qwerty");
+        SubmitPage submitPage=loginPage.loginSubmit("s", "Qwerty");
         try {
             sleep(5000);
         } catch (InterruptedException e) {
             e.printStackTrace();
-            SubmitPage submitPage= new SubmitPage(webDriver);
             Assert.assertTrue(submitPage.isErrorMessageDisplayed(), "Submit page URL is wrong");
         }
 
