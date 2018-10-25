@@ -6,6 +6,7 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import static java.lang.Thread.sleep;
@@ -24,6 +25,15 @@ public class LoginTest {
         webDriver.quit();
     }
 
+    @DataProvider
+    public Object[][] validDataProvider() {
+        return new Object[][]{
+                {"bryzhatan@gmail.com" , "Qwerty"},
+                {"Bryzhatan@gmail.com", "Qwerty"},
+                {" bryzhatan@gmail.com ", "Qwerty"}
+        };
+    }
+
     /**
      * Preconditions:
      * -Open FF browser;
@@ -40,15 +50,15 @@ public class LoginTest {
      * PostCondition:
      * -Close FF browser.
      */
-    @Test
-    public void successfulLoginTest() {
+    @Test (dataProvider = "validDataProvider")
+    public void successfulLoginTest(String userEmail, String userPassword) {
 
         webDriver.get("https://www.linkedin.com");
         LoginPage loginPage = new LoginPage(webDriver);
 
         Assert.assertTrue(loginPage.isPageLoaded(), "Login page is not loaded");
 
-        HomePage homePage=loginPage.login("bryzhatan@gmail.com", "Qwerty");
+        HomePage homePage=loginPage.login(userEmail, userPassword);
 
         try {
             sleep(5000);
@@ -65,7 +75,7 @@ public class LoginTest {
 
         Assert.assertTrue(loginPage.isPageLoaded(), "Login page is not loaded");
 
-        loginPage = loginPage.loginStayAtLogin("a@b.c", "");
+        loginPage = loginPage.login("a@b.c", "");
 
        Assert.assertEquals(webDriver.getCurrentUrl(), "https://www.linkedin.com/",
                 "Login page URL is wrong");
@@ -78,13 +88,29 @@ public class LoginTest {
         LoginPage loginPage = new LoginPage(webDriver);
 
         Assert.assertTrue(loginPage.isPageLoaded(), "Login page is not loaded");
-        SubmitPage submitPage=loginPage.loginSubmit("bryzhatan@gmail.com", "qwerty");
+        SubmitPage submitPage=loginPage.login("bryzhatan@gmail.com", "qwerty");
         try {
             sleep(5000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
         Assert.assertFalse(submitPage.isSubmitPageLoad(), "Submit page URL is wrong");
+    }
+    @Test
+
+    public void TestMinNumberOfCharEmailField () {
+        webDriver.get("https://www.linkedin.com");
+        LoginPage loginPage = new LoginPage(webDriver);
+
+        Assert.assertTrue(loginPage.isPageLoaded(), "Login page is not loaded");
+        SubmitPage submitPage=loginPage.login("s", "Qwerty");
+        try {
+            sleep(5000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+            Assert.assertTrue(submitPage.isErrorMessageDisplayed(), "Submit page URL is wrong");
+        }
+
     }
 
     @Test
@@ -94,30 +120,15 @@ public class LoginTest {
         LoginPage loginPage = new LoginPage(webDriver);
 
         Assert.assertTrue(loginPage.isPageLoaded(), "Login page is not loaded");
-        CheckpointPage checkpointPage=loginPage.loginCheckpoint("bryzhatan@gmail1.com", "Qwerty");
+        SubmitPage submitPage=loginPage.login("bryzhatan@gmail1.com", "Qwerty");
         try {
             sleep(5000);
         } catch (InterruptedException e) {
             e.printStackTrace();
 
-            Assert.assertTrue(checkpointPage.isCheckpointPageLoad(), "Checkpoint Page is wrong");
+            Assert.assertTrue(submitPage.isCheckpointPageLoad(), "Checkpoint Page is wrong");
         }
     }
 
-    @Test
 
-    public void TestMinNumberOfCharEmailField () {
-        webDriver.get("https://www.linkedin.com");
-        LoginPage loginPage = new LoginPage(webDriver);
-
-        Assert.assertTrue(loginPage.isPageLoaded(), "Login page is not loaded");
-        SubmitPage submitPage=loginPage.loginSubmit("s", "Qwerty");
-        try {
-            sleep(5000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-            Assert.assertTrue(submitPage.isErrorMessageDisplayed(), "Submit page URL is wrong");
-        }
-
-    }
 }
