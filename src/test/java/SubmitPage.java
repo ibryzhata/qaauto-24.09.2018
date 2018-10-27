@@ -11,13 +11,16 @@ public class SubmitPage {
     private WebDriver webDriver;
 
     @FindBy(xpath = "//span[@class='error']")
-    private WebElement errorMinNumberForEmail;
-
-    @FindBy(xpath = "//span[@class='error']")
     private WebElement errorInvalidPass;
 
     @FindBy(xpath = "//div[@error-for='username']")
     private WebElement errorEmail;
+
+    @FindBy(xpath = "//span[@class='error']")
+    private WebElement errorMinNumberForEmail;
+
+    @FindBy(xpath = "//div[@class='alert error']")
+    private WebElement genErrorMessage;
 
 
     public SubmitPage(WebDriver webDriver) {
@@ -28,6 +31,7 @@ public class SubmitPage {
     public boolean isSubmitPageLoad() {
         return webDriver.getCurrentUrl().equals("https://www.linkedin.com/uas/login-submit?loginSubmitSource=GUEST_HOME")
                 && webDriver.getTitle().equals("Войти в LinkedIn")
+                && isGenErrorMessageDisplayed()
                 && isMessageDisplayed();
     }
 
@@ -39,6 +43,7 @@ public class SubmitPage {
     public boolean isErrorMessageDisplayed() {
         return webDriver.getCurrentUrl().equals("https://www.linkedin.com/uas/login-submit?loginSubmitSource=GUEST_HOME")
                 && webDriver.getTitle().equals("Войти в LinkedIn")
+                && isGenErrorMessageDisplayed()
                 && isErrorForMinNumberLoad();
     }
 
@@ -48,14 +53,18 @@ public class SubmitPage {
     }
 
 
-    public boolean isCheckpointPageLoad() {
-        return webDriver.getCurrentUrl().equals("https://www.linkedin.com/checkpoint/lg/login-challenge-submit?lastCv=AgFF2MyDf4vvCwAAAWaSuBPPrFocamQcQP3unaCRvwLV_Gamyfcg-f4K2-M&%2F_d=d&vcd=AgHS9zWX4eJkNwAAAWaSuDktqIZ-RecNXf3tpW8metkiB2-RsvYjuiv4YWLFEd0xYKWwfT9PvnWBpnT7WPCUnLJt9-7iVQ&pageInstance=urn%3Ali%3Apage%3Ad_checkpoint_ch_captchaV2Challenge%3BNeXZCQ5KT1m5Gy52g3GGAQ%3D%3D&controlId=d_checkpoint_ch_captchaV2Challenge-Submit&ut=2uVNmkPnRfG8s1")
+    public boolean isErrorInvalidEmail() {
+        return webDriver.getCurrentUrl().equals("https://www.linkedin.com/uas/login-submit?loginSubmitSource=GUEST_HOME")
                 && webDriver.getTitle().equals("Войти в LinkedIn")
+                && isGenErrorMessageDisplayed()
                 && isErrorEmailDisplayed();
-
     }
 
     public boolean isErrorEmailDisplayed() {
         return errorEmail.isDisplayed();
+    }
+
+    public boolean isGenErrorMessageDisplayed(){
+        return genErrorMessage.isDisplayed();
     }
 }
