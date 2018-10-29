@@ -14,10 +14,14 @@ import static java.lang.Thread.sleep;
 
 public class LoginTest {
     WebDriver webDriver;
+    LoginPage loginPage;
 
     @BeforeMethod
     public void  beforeMethod () {
-         webDriver = new FirefoxDriver();
+        webDriver = new FirefoxDriver();
+        webDriver.get("https://www.linkedin.com");
+        loginPage = new LoginPage(webDriver);
+
     }
 
     @AfterMethod
@@ -34,15 +38,6 @@ public class LoginTest {
         };
     }
 
-    @DataProvider
-    public Object[][] invalidDataProvider() {
-        return new Object[][]{
-                {"bryzhatan@gmail.com", "qwerty", "", "Это неверный пароль. Повторите попытку или "},
-                {"bryzhatan@gmail1.com", "Qwerty", "Этот адрес эл. почты не зарегистрирован в LinkedIn. Повторите попытку.", ""},
-                {"s", "Qwerty", "Слишком короткий текст (минимальная длина – 3 симв., введено – 1 симв.).", ""},
-                {"ira", "Qwerty", "Укажите действительный адрес эл. почты.", ""}
-        };
-    }
 
     @DataProvider
     public Object [][] invalidDataWithoutChangingPageDataProvider(){
@@ -74,8 +69,7 @@ public class LoginTest {
     @Test (dataProvider = "validDataProvider")
     public void successfulLoginTest(String userEmail, String userPassword ) {
 
-        webDriver.get("https://www.linkedin.com");
-        LoginPage loginPage = new LoginPage(webDriver);
+
 
         Assert.assertTrue(loginPage.isPageLoaded(), "Login page is not loaded");
 
@@ -87,29 +81,46 @@ public class LoginTest {
             e.printStackTrace();
         }
         Assert.assertTrue(homePage.isHomePageLoad(), "Home page is not loaded");
+
     }
 
 
-    @Test (dataProvider = "invalidDataProvider")
-    public void negativeTestInvalidData (String userEmail, String userPassword, String emailValidationMessage, String passwordValidationMessage) {
-        webDriver.get("https://www.linkedin.com");
-        LoginPage loginPage = new LoginPage(webDriver);
 
-        Assert.assertTrue(loginPage.isPageLoaded(), "Login page is not loaded");
-        SubmitPage submitPage=loginPage.login(userEmail, userPassword);
-        try {
-            sleep(5000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
-      Assert.assertFalse(submitPage.isSubmitPageLoad(), "Submit page URL is wrong");
+    @DataProvider
+    public Object[][] validationMessagesCombinations() {
+        return new Object[][]{
+                {"bryzhatan@gmail.com", "qwerty", "", ""},
+               {"bryzhatan@gmail.com", "qwerty", "", "Это неверный пароль. Повторите попытку или "},
+               {"bryzhatan@gmail1.com", "Qwerty", "Этот адрес эл. почты не зарегистрирован в LinkedIn. Повторите попытку.", ""},
+                {"s", "Qwerty", "Слишком короткий текст (минимальная длина – 3 симв., введено – 1 симв.).", ""},
+                {"ira", "Qwerty", "Укажите действительный адрес эл. почты.", ""}
+        };
     }
 
-    @Test (dataProvider = "invalidDataWithoutChangingPageDataProvider")
+    @Test (dataProvider = "validationMessagesCombinations")
+    public void validationMessagesInvalidEmailPasswordTest(String userEmail,
+                                                     String userPassword,
+                                                     String emailValidationMessage,
+                                                     String passwordValidationMessage) {
+
+       SubmitPage submitPage = loginPage.login(userEmail, userPassword);
+       Assert.assertTrue(submitPage.isSubmitPageLoad(), "SubmitPage is not loaded");
+       Assert.assertEquals(submitPage.getAlertMessageText (),
+               "При заполнении формы были допущены ошибки. Проверьте и исправьте отмеченные поля.",
+               "Assert message text is wrong.");
+
+        Assert.assertEquals(submitPage.getEmailValidationMessage(), emailValidationMessage,
+                "Email validation message is wrong.");
+        Assert.assertEquals(submitPage.getPasswordValidationMessage(), passwordValidationMessage,
+                "Password validation message is wrong.");
+    }
+
+
+
+
+   /* @Test (dataProvider = "invalidDataWithoutChangingPageDataProvider")
     public void negativeLoginWithEmptyPasswordTest (String userEmail, String userPassword) {
-        webDriver.get("https://www.linkedin.com");
-        LoginPage loginPage = new LoginPage(webDriver);
+
 
         Assert.assertTrue(loginPage.isPageLoaded(), "Login page is not loaded");
 
@@ -117,6 +128,6 @@ public class LoginTest {
 
         Assert.assertEquals(webDriver.getCurrentUrl(), "https://www.linkedin.com/",
                 "Login page URL is wrong");
-    }
+    }*/
 
    }

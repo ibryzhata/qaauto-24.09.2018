@@ -36,13 +36,6 @@ public class LoginPage {
         return signInButton.isDisplayed();
     }
 
-    /*public <T> T login (String userEmail, String userPassword, Class<T> expectedPage){
-        userEmailField.sendKeys(userEmail);
-        userPasswordField.sendKeys(userPassword);
-        signInButton.click();
-        return PageFactory.initElements(webDriver, expectedPage);
-    }*/
-
 
     public <T> T login(String userEmail, String userPassword) {
         userEmailField.sendKeys(userEmail);
@@ -65,25 +58,4 @@ public class LoginPage {
     }
 }
 
-   /* public LoginPage loginStayAtLogin(String userEmail, String userPassword) {
-        userEmailField.sendKeys(userEmail);
-        userPasswordField.sendKeys(userPassword);
-        signInButton.click();
-        return new LoginPage(webDriver);
 
-    }
-
-    public SubmitPage loginSubmit(String userEmail, String userPassword) {
-        userEmailField.sendKeys(userEmail);
-        userPasswordField.sendKeys(userPassword);
-        signInButton.click();
-        return new SubmitPage(webDriver);
-    }
-
-    public CheckpointPage loginCheckpoint(String userEmail, String userPassword) {
-        userEmailField.sendKeys(userEmail);
-        userPasswordField.sendKeys(userPassword);
-        signInButton.click();
-        return new CheckpointPage(webDriver);
-    }
-}*/

@@ -10,17 +10,18 @@ public class SubmitPage {
 
     private WebDriver webDriver;
 
-    @FindBy(xpath = "//span[@class='error']")
-    private WebElement errorInvalidPass;
 
     @FindBy(xpath = "//div[@error-for='username']")
-    private WebElement errorEmail;
+    private WebElement emailValidationMessage;
+
+    @FindBy(xpath = "//span[@class='error']")
+    private WebElement passwordValidationMessage;
 
     @FindBy(xpath = "//span[@class='error']")
     private WebElement errorMinNumberForEmail;
 
     @FindBy(xpath = "//div[@class='alert error']")
-    private WebElement genErrorMessage;
+    private WebElement alertErrorMessage;
 
 
     public SubmitPage(WebDriver webDriver) {
@@ -31,19 +32,19 @@ public class SubmitPage {
     public boolean isSubmitPageLoad() {
         return webDriver.getCurrentUrl().equals("https://www.linkedin.com/uas/login-submit?loginSubmitSource=GUEST_HOME")
                 && webDriver.getTitle().equals("Войти в LinkedIn")
-                && isGenErrorMessageDisplayed()
+                && isAlertErrorMessageDisplayed()
                 && isMessageDisplayed();
     }
 
     public boolean isMessageDisplayed() {
-        return errorInvalidPass.isDisplayed();
+        return emailValidationMessage.isDisplayed();
     }
 
 
     public boolean isErrorMessageDisplayed() {
         return webDriver.getCurrentUrl().equals("https://www.linkedin.com/uas/login-submit?loginSubmitSource=GUEST_HOME")
                 && webDriver.getTitle().equals("Войти в LinkedIn")
-                && isGenErrorMessageDisplayed()
+                && isAlertErrorMessageDisplayed()
                 && isErrorForMinNumberLoad();
     }
 
@@ -53,18 +54,31 @@ public class SubmitPage {
     }
 
 
-    public boolean isErrorInvalidEmail() {
+   /* public boolean isErrorInvalidEmail() {
         return webDriver.getCurrentUrl().equals("https://www.linkedin.com/uas/login-submit?loginSubmitSource=GUEST_HOME")
                 && webDriver.getTitle().equals("Войти в LinkedIn")
-                && isGenErrorMessageDisplayed()
-                && isErrorEmailDisplayed();
-    }
+                && isAlertErrorMessageDisplayed()
+                && isErrorEmailDisplayed();*/
+
 
     public boolean isErrorEmailDisplayed() {
-        return errorEmail.isDisplayed();
+        return emailValidationMessage.isDisplayed();
     }
 
-    public boolean isGenErrorMessageDisplayed(){
-        return genErrorMessage.isDisplayed();
+    public boolean isAlertErrorMessageDisplayed(){
+        return alertErrorMessage.isDisplayed();
+    }
+
+    public String getAlertMessageText() {
+        return alertErrorMessage.getText();
+    }
+
+    public String getEmailValidationMessage() {
+        return emailValidationMessage.getText();
+
+    }
+
+    public String getPasswordValidationMessage() {
+        return passwordValidationMessage.getText();
     }
 }
