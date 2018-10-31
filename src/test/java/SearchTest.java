@@ -3,6 +3,7 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import static java.lang.Thread.sleep;
@@ -44,8 +45,17 @@ public class SearchTest {
          * PostConditions:
          * - Close Browser.
          */
-        @Test
-        public void basicSearchTest() {
+
+
+        @DataProvider
+        public Object[][] searchTerm() {
+            return new Object[][]{
+                    {"HR", "HR"}
+            };
+        }
+
+        @Test (dataProvider = "searchTerm")
+        public void basicSearchTest(String searchTerm, String expectedTerm) {
             Assert.assertTrue(loginPage.isPageLoaded(), "Login page is not loaded");
 
             HomePage homePage=loginPage.login( "bryzhatan@gmail.com" , "Qwerty");
@@ -56,6 +66,17 @@ public class SearchTest {
                 e.printStackTrace();
             }
             Assert.assertTrue(homePage.isHomePageLoad(), "Home page is not loaded");
+            SearchPage searchPage = homePage.search(searchTerm);
+
+            try {
+                sleep(10000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
+            Assert.assertTrue(searchPage.isSearchPageLoad(), "Search page is not loaded");
+            Assert.assertEquals(searchPage.getCountSearchResult(),10, "Actual result is wrong");
+            Assert.assertTrue(searchPage.getSearchListResults().get(0).contains(expectedTerm), "Search term is not found in results list");
 
         }
 
