@@ -6,6 +6,8 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
+import java.util.List;
+
 import static java.lang.Thread.sleep;
 
 public class SearchTest {
@@ -47,37 +49,37 @@ public class SearchTest {
          */
 
 
-        @DataProvider
-        public Object[][] searchTerm() {
-            return new Object[][]{
-                    {"HR", "HR"}
-            };
-        }
 
-        @Test (dataProvider = "searchTerm")
-        public void basicSearchTest(String searchTerm, String expectedTerm) {
+        @Test
+        public void basicSearchTest() {
+            String searchTerm ="HR";
+
             Assert.assertTrue(loginPage.isPageLoaded(), "Login page is not loaded");
 
             HomePage homePage=loginPage.login( "bryzhatan@gmail.com" , "Qwerty");
 
-            try {
-                sleep(5000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
             Assert.assertTrue(homePage.isHomePageLoad(), "Home page is not loaded");
-            SearchPage searchPage = homePage.search(searchTerm);
 
-            try {
-                sleep(10000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
 
-            Assert.assertTrue(searchPage.isSearchPageLoad(), "Search page is not loaded");
-            Assert.assertEquals(searchPage.getCountSearchResult(),10, "Actual result is wrong");
+           SearchPage searchPage= homePage.search ("searchTerm");
+
+           Assert.assertTrue(searchPage.isSearchPageLoad(), "Search page is not loaded");
+           Assert.assertEquals(searchPage.getCountSearchResult(),10, "SearchResult count is wrong");
+
+
+
+            List<String> searchResultLists =searchPage.getSearchListResults();
+           for (String searchResult: searchResultLists){
+               Assert.assertTrue(searchResult.toLowerCase().contains(searchTerm.toLowerCase()),
+                       "SearchTerm" +searchTerm+ "not found in "+searchResult);
+           }
+
+           /*
+
+
             Assert.assertTrue(searchPage.getSearchListResults().get(0).contains(expectedTerm), "Search term is not found in results list");
 
-        }
+        }*/
 
     }
+}
