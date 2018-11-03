@@ -21,9 +21,6 @@ public class SearchPage {
     @FindBy(xpath = "//li[contains(@class, 'search-result__occluded-item')]")
     private List<WebElement>  searchResultLists;
 
-      /*  @FindBy(xpath = "//p[@class='subline-level-1 t-14 t-black t-normal search-result__truncate']/span[@dir='ltr']")
-        private WebElement expectedTerm;*/
-
 
     public SearchPage (WebDriver webDriver){
     this.webDriver = webDriver;

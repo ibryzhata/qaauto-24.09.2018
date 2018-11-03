@@ -1,4 +1,3 @@
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -18,6 +17,9 @@ public class LoginPage {
 
     @FindBy(xpath = "//input[@id='login-submit']")
     private WebElement signInButton;
+
+    @FindBy(xpath = "//a[@class='link-forgot-password']")
+    private WebElement linkForgotPassword;
 
     public LoginPage(WebDriver webDriver) {
         this.webDriver = webDriver;
@@ -48,7 +50,8 @@ public class LoginPage {
         }
         if (webDriver.getCurrentUrl().contains("/feed")) {
             return (T) new HomePage(webDriver);
-        }if (webDriver.getCurrentUrl().contains("/login-submit")) {
+        }
+        if (webDriver.getCurrentUrl().contains("/login-submit")) {
             return (T) new SubmitPage(webDriver);
 
         } else {
@@ -56,6 +59,14 @@ public class LoginPage {
 
         }
     }
+
+    public RequestResetPasswordPage clickLinkForgotPassword() {
+        linkForgotPassword.click();
+        try {
+            sleep(3000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return new RequestResetPasswordPage(webDriver);
+    }
 }
-
-
