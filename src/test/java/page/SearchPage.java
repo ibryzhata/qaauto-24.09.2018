@@ -1,3 +1,5 @@
+package page;
+
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -8,7 +10,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-public class SearchPage {
+public class SearchPage extends BasePage {
     private WebDriver webDriver;
 
 
@@ -49,6 +51,10 @@ public class SearchPage {
         }
             return searchResultLists;
         }
+
+    public boolean isPageLoaded() {
+        return false;
     }
+}
 
 

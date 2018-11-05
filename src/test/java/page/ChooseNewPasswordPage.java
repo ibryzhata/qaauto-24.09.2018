@@ -1,12 +1,13 @@
+package page;
+
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
-
 import static java.lang.Thread.sleep;
 
-public class ChooseNewPasswordPage {
+public class ChooseNewPasswordPage extends BasePage{
     private WebDriver webDriver;
 
     @FindBy(xpath = "//button[@id='reset-password-submit-button']")
@@ -43,4 +44,7 @@ public class ChooseNewPasswordPage {
     }
 
 
+    public boolean isPageLoaded() {
+        return false;
+    }
 }

@@ -1,12 +1,14 @@
-import org.openqa.selenium.JavascriptExecutor;
+package page;
+
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
+import util.GMailService;
 
 import static java.lang.Thread.sleep;
 
-public class RequestResetPasswordPage {
+public class RequestResetPasswordPage extends BasePage {
     private WebDriver webDriver;
 
     @FindBy(xpath = "//button[@id='reset-password-submit-button']")
@@ -30,8 +32,22 @@ public class RequestResetPasswordPage {
 
 
     public CheckpointRequestPasswordPage searchAccount(String userEmail){
+        String messageSubject = "данное сообщение содержит ссылку для изменения пароля";
+        String messageTo = "bryzhatan@gmail.com";
+        String messageFrom = "security-noreply@linkedin.com";
+
+
+        GMailService gMailService = new GMailService();
+        gMailService.connect();
+
+
         inputUserEmail.sendKeys(userEmail);
         buttonFindAccount.click();
+
+
+        String message = gMailService.waitMessage(messageSubject, messageTo, messageFrom, 180);
+        System.out.println("Content: " + message);
+
         try {
             sleep(3000);
         } catch (InterruptedException e) {
@@ -39,5 +55,9 @@ public class RequestResetPasswordPage {
         }
         return new CheckpointRequestPasswordPage (webDriver);
 
+    }
+
+    public boolean isPageLoaded() {
+        return false;
     }
 }

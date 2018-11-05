@@ -1,3 +1,5 @@
+package page;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -5,7 +7,7 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.PageFactoryFinder;
 
-public class SubmitPage {
+public class SubmitPage extends BasePage {
 
 
     private WebDriver webDriver;
@@ -80,5 +82,9 @@ public class SubmitPage {
 
     public String getPasswordValidationMessage() {
         return passwordValidationMessage.getText();
+    }
+
+    public boolean isPageLoaded() {
+        return false;
     }
 }

@@ -1,14 +1,13 @@
+package page;
+
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
-import sun.awt.image.ImageWatched;
-
-import java.net.URL;
 
 import static java.lang.Thread.sleep;
 
-public class CheckpointRequestPasswordPage {
+public class CheckpointRequestPasswordPage extends BasePage{
     private WebDriver webDriver;
 
     @FindBy(xpath = "//header[@class='content__header']")
@@ -31,6 +30,9 @@ public class CheckpointRequestPasswordPage {
 
 
         resetPasswordLink = messageSentLink.getText();
+
+
+
         try {
             sleep(30000);
         } catch (InterruptedException e) {
@@ -41,4 +43,7 @@ public class CheckpointRequestPasswordPage {
         return new ChooseNewPasswordPage(webDriver);
     }
 
+    public boolean isPageLoaded() {
+        return false;
+    }
 }

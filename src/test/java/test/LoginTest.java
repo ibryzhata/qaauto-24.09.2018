@@ -1,33 +1,14 @@
-import org.openqa.selenium.By;
-import org.openqa.selenium.Keys;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.firefox.FirefoxDriver;
+package test;
+
 import org.testng.Assert;
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
-
+import page.HomePage;
+import page.SubmitPage;
 import static java.lang.Thread.sleep;
 
 
-public class LoginTest {
-    WebDriver webDriver;
-    LoginPage loginPage;
-
-    @BeforeMethod
-    public void  beforeMethod () {
-        webDriver = new FirefoxDriver();
-        webDriver.get("https://www.linkedin.com");
-        loginPage = new LoginPage(webDriver);
-
-    }
-
-    @AfterMethod
-    public void afterMethod () {
-        webDriver.quit();
-    }
+public class LoginTest extends BaseTest{
 
     @DataProvider
     public Object[][] validDataProvider() {
@@ -104,7 +85,7 @@ public class LoginTest {
                                                      String passwordValidationMessage) {
 
        SubmitPage submitPage = loginPage.login(userEmail, userPassword);
-       Assert.assertTrue(submitPage.isSubmitPageLoad(), "SubmitPage is not loaded");
+       Assert.assertTrue(submitPage.isSubmitPageLoad(), "page.SubmitPage is not loaded");
        Assert.assertEquals(submitPage.getAlertMessageText (),
                "При заполнении формы были допущены ошибки. Проверьте и исправьте отмеченные поля.",
                "Assert message text is wrong.");
