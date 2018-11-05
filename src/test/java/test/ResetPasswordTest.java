@@ -5,6 +5,8 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 import page.*;
 
+import static java.lang.Thread.sleep;
+
 
 public class ResetPasswordTest extends BaseTest {
 
@@ -17,6 +19,12 @@ public class ResetPasswordTest extends BaseTest {
                 "Request Reset Password Page is not loaded");
 
         CheckpointRequestPasswordPage checkpointRequestPasswordPage = requestResetPasswordPage.searchAccount("bryzhatan@gmail.com");
+
+        try {
+            sleep(18000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         Assert.assertTrue(checkpointRequestPasswordPage.isCheckpointRequestPasswordPageLoaded(),
                 "CheckpointPage is not loaded");
 

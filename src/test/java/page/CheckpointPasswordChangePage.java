@@ -5,9 +5,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
-public class CheckpointPasswordChangePage {
-    private WebDriver webDriver;
-
+public class CheckpointPasswordChangePage extends BasePage {
 
     @FindBy(xpath ="//button[@id='reset-password-submit-button']")
     private WebElement buttonGoToTheMainPage;
@@ -31,4 +29,7 @@ public class CheckpointPasswordChangePage {
 
     }
 
+    public boolean isPageLoaded() {
+        return false;
+    }
 }

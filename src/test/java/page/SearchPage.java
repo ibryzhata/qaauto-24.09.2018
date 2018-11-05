@@ -11,8 +11,6 @@ import java.util.Collection;
 import java.util.List;
 
 public class SearchPage extends BasePage {
-    private WebDriver webDriver;
-
 
     @FindBy(xpath = "//div[@class='search-result__wrapper']")
     private List<WebElement> searchListResults;

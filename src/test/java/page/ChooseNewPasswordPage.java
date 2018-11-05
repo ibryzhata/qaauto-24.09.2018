@@ -8,7 +8,6 @@ import org.openqa.selenium.support.PageFactory;
 import static java.lang.Thread.sleep;
 
 public class ChooseNewPasswordPage extends BasePage{
-    private WebDriver webDriver;
 
     @FindBy(xpath = "//button[@id='reset-password-submit-button']")
     private WebElement buttonSendNewPassword;

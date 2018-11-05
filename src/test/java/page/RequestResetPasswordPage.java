@@ -9,13 +9,13 @@ import util.GMailService;
 import static java.lang.Thread.sleep;
 
 public class RequestResetPasswordPage extends BasePage {
-    private WebDriver webDriver;
 
     @FindBy(xpath = "//button[@id='reset-password-submit-button']")
     private WebElement buttonFindAccount;
 
     @FindBy(xpath = "//input[@name='userName']")
     private WebElement inputUserEmail;
+
 
 
 
@@ -32,13 +32,13 @@ public class RequestResetPasswordPage extends BasePage {
 
 
     public CheckpointRequestPasswordPage searchAccount(String userEmail){
-        String messageSubject = "данное сообщение содержит ссылку для изменения пароля";
-        String messageTo = "bryzhatan@gmail.com";
-        String messageFrom = "security-noreply@linkedin.com";
-
 
         GMailService gMailService = new GMailService();
         gMailService.connect();
+
+        String messageSubject = "данное сообщение содержит ссылку для изменения пароля";
+        String messageTo = "bryzhatan@gmail.com";
+        String messageFrom = "security-noreply@linkedin.com";
 
 
         inputUserEmail.sendKeys(userEmail);
@@ -56,6 +56,7 @@ public class RequestResetPasswordPage extends BasePage {
         return new CheckpointRequestPasswordPage (webDriver);
 
     }
+
 
     public boolean isPageLoaded() {
         return false;

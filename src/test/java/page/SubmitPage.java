@@ -9,10 +9,6 @@ import org.openqa.selenium.support.PageFactoryFinder;
 
 public class SubmitPage extends BasePage {
 
-
-    private WebDriver webDriver;
-
-
     @FindBy(xpath = "//div[@error-for='username']")
     private WebElement emailValidationMessage;
 

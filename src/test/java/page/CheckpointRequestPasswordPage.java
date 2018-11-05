@@ -8,7 +8,6 @@ import org.openqa.selenium.support.PageFactory;
 import static java.lang.Thread.sleep;
 
 public class CheckpointRequestPasswordPage extends BasePage{
-    private WebDriver webDriver;
 
     @FindBy(xpath = "//header[@class='content__header']")
     private WebElement messageSentLink;
@@ -27,11 +26,7 @@ public class CheckpointRequestPasswordPage extends BasePage{
     }
 
     public ChooseNewPasswordPage navigateToLinkFromEmail (String resetPasswordLink) {
-
-
         resetPasswordLink = messageSentLink.getText();
-
-
 
         try {
             sleep(30000);
@@ -42,6 +37,7 @@ public class CheckpointRequestPasswordPage extends BasePage{
 
         return new ChooseNewPasswordPage(webDriver);
     }
+
 
     public boolean isPageLoaded() {
         return false;
