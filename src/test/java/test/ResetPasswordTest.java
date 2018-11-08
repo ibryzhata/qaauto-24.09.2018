@@ -28,7 +28,7 @@ public class ResetPasswordTest extends BaseTest {
         Assert.assertTrue(checkpointRequestPasswordPage.isCheckpointRequestPasswordPageLoaded(),
                 "CheckpointPage is not loaded");
 
-        ChooseNewPasswordPage chooseNewPasswordPage = checkpointRequestPasswordPage.navigateToLinkFromEmail("");
+        ChooseNewPasswordPage chooseNewPasswordPage = requestResetPasswordPage.navigateToLinkFromEmail();
         Assert.assertTrue(chooseNewPasswordPage.isChooseNewPasswordPageLoaded(),
                 "page.ChooseNewPasswordPage is not loaded");
 
